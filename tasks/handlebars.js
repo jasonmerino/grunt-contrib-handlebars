@@ -106,7 +106,7 @@ module.exports = function(grunt) {
         } else {
           if(options.amd && options.namespace === false) {
             compiled = 'return ' + compiled;
-          }             
+          }
           filename = processName(filepath);
           if (options.namespace !== false) {
             templates.push(nsInfo.namespace+'['+JSON.stringify(filename)+'] = '+compiled+';');
@@ -161,9 +161,13 @@ module.exports = function(grunt) {
         }
 
         grunt.file.write(f.dest, output.join(grunt.util.normalizelf(options.separator)));
+        grunt.event.emit('handlebars:created', f.dest);
         grunt.log.writeln('File "' + f.dest + '" created.');
       }
     });
+
+    // emit finished event
+    grunt.event.emit('handlebars:finished');
 
   });
 
